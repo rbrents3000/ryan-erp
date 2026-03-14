@@ -41,8 +41,8 @@ export function getOrderColumns({
       accessorKey: "totalAmount",
       header: "Total",
       cell: ({ row }) => {
-        const amount = Number(row.original.totalAmount);
-        return `${row.original.currencyCode} ${amount.toFixed(2)}`;
+        const amount = parseFloat(row.original.totalAmount) || 0;
+        return amount.toLocaleString("en-US", { style: "currency", currency: "USD" });
       },
     },
     {
