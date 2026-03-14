@@ -152,6 +152,7 @@ export const modules: Module[] = [
       { name: "Users", href: "/admin/users" },
       { name: "Parameters", href: "/admin/parameters" },
       { name: "Currencies", href: "/admin/currencies" },
+      { name: "Units of Measure", href: "/admin/uom" },
     ],
   },
 ]
