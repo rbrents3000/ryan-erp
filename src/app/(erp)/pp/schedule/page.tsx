@@ -1,11 +1,18 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { getProductionSchedule } from "./actions";
+import { ScheduleList } from "./schedule-list";
 
-export default function ProductionSchedulePage() {
+export default async function ProductionSchedulePage() {
+  const data = await getProductionSchedule();
+
   return (
-    <ModulePlaceholder
-      title="Production Schedule"
-      description="Schedule and sequence production jobs."
-      moduleCode="PP"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Production Schedule</h1>
+        <p className="text-sm text-muted-foreground">
+          Active and upcoming production jobs.
+        </p>
+      </div>
+      <ScheduleList data={data} />
+    </div>
   );
 }

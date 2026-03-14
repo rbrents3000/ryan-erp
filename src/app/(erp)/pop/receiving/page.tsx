@@ -1,11 +1,18 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { listGoodsReceived } from "./actions";
+import { GoodsReceivedList } from "./goods-received-list";
 
-export default function GoodsReceivingPage() {
+export default async function GoodsReceivingPage() {
+  const data = await listGoodsReceived();
+
   return (
-    <ModulePlaceholder
-      title="Goods Receiving"
-      description="Receive goods against purchase orders and record deliveries."
-      moduleCode="POP"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Goods Receiving</h1>
+        <p className="text-sm text-muted-foreground">
+          Receive goods against purchase orders and record deliveries.
+        </p>
+      </div>
+      <GoodsReceivedList data={data} />
+    </div>
   );
 }

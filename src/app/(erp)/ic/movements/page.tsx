@@ -1,11 +1,23 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { getStockMovements } from "./actions";
+import { MovementsReport } from "./movements-report";
 
-export default function StockMovementsPage() {
+interface Props {
+  searchParams: Promise<{ startDate?: string; endDate?: string }>;
+}
+
+export default async function StockMovementsPage({ searchParams }: Props) {
+  const { startDate, endDate } = await searchParams;
+  const data = await getStockMovements(startDate, endDate);
+
   return (
-    <ModulePlaceholder
-      title="Stock Movements"
-      description="Track inventory transactions — receipts, issues, transfers, and adjustments."
-      moduleCode="IC"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Stock Movements</h1>
+        <p className="text-sm text-muted-foreground">
+          Track inventory transactions -- receipts, issues, transfers, and adjustments.
+        </p>
+      </div>
+      <MovementsReport data={data} />
+    </div>
   );
 }

@@ -1,11 +1,23 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { getAgingReport } from "./actions";
+import { AgingReport } from "./aging-report";
 
-export default function ARAgingPage() {
+interface Props {
+  searchParams: Promise<{ asOfDate?: string }>;
+}
+
+export default async function ARAgingPage({ searchParams }: Props) {
+  const { asOfDate } = await searchParams;
+  const data = await getAgingReport(asOfDate);
+
   return (
-    <ModulePlaceholder
-      title="AR Aging Report - Coming Soon"
-      description="This report will show outstanding receivables by aging bucket."
-      moduleCode="AR"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">AR Aging Report</h1>
+        <p className="text-sm text-muted-foreground">
+          Outstanding receivables by aging bucket.
+        </p>
+      </div>
+      <AgingReport data={data} />
+    </div>
   );
 }
