@@ -12,7 +12,12 @@ export async function GET(request: Request) {
     if (!error) {
       return NextResponse.redirect(`${origin}${next}`);
     }
+    console.error("Auth callback error:", error.message, error.status);
+    return NextResponse.redirect(
+      `${origin}/login?error=${encodeURIComponent(error.message)}`
+    );
   }
 
-  return NextResponse.redirect(`${origin}/login?error=auth_callback_error`);
+  console.error("Auth callback: no code parameter received");
+  return NextResponse.redirect(`${origin}/login?error=missing_auth_code`);
 }
