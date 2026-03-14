@@ -1,11 +1,18 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { listCustomers } from "./actions";
+import { CustomerList } from "./customer-list";
 
-export default function CustomersPage() {
+export default async function CustomersPage() {
+  const customers = await listCustomers();
+
   return (
-    <ModulePlaceholder
-      title="Customers"
-      description="Manage customer master records, addresses, and credit terms."
-      moduleCode="AR"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Customers</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage customer records and accounts receivable.
+        </p>
+      </div>
+      <CustomerList data={customers} />
+    </div>
   );
 }

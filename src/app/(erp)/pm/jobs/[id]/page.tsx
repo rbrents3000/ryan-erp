@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
-export default function JobDetailsPage() {
-  return (
-    <ModulePlaceholder
-      title="Job Details"
-      description="View and edit production job details."
-      moduleCode="PM"
-    />
-  );
+export default function JobDetailPage() {
+  redirect("/pm/jobs");
 }

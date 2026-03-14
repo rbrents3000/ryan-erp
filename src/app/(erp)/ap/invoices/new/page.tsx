@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
-export default function NewAPInvoicePage() {
-  return (
-    <ModulePlaceholder
-      title="New AP Invoice"
-      description="Enter a new vendor invoice."
-      moduleCode="AP"
-    />
-  );
+export default function NewInvoicePage() {
+  redirect("/ap/invoices");
 }

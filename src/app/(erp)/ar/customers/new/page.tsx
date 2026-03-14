@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
 export default function NewCustomerPage() {
-  return (
-    <ModulePlaceholder
-      title="New Customer"
-      description="Create a new customer record."
-      moduleCode="AR"
-    />
-  );
+  redirect("/ar/customers");
 }

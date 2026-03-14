@@ -1,11 +1,18 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { listJournals } from "./actions";
+import { JournalList } from "./journal-list";
 
-export default function JournalEntriesPage() {
+export default async function JournalEntriesPage() {
+  const journals = await listJournals();
+
   return (
-    <ModulePlaceholder
-      title="Journal Entries"
-      description="Create and manage journal entries for double-entry bookkeeping."
-      moduleCode="GL"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Journal Entries</h1>
+        <p className="text-sm text-muted-foreground">
+          Create and manage general ledger journal entries.
+        </p>
+      </div>
+      <JournalList data={journals} />
+    </div>
   );
 }

@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
-export default function NewSalesOrderPage() {
-  return (
-    <ModulePlaceholder
-      title="New Sales Order"
-      description="Create a new sales order."
-      moduleCode="SOP"
-    />
-  );
+export default function NewOrderPage() {
+  redirect("/sop/orders");
 }

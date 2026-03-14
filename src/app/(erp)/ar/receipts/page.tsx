@@ -1,11 +1,18 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { listReceipts } from "./actions";
+import { ReceiptList } from "./receipt-list";
 
-export default function CashReceiptsPage() {
+export default async function CashReceiptsPage() {
+  const receipts = await listReceipts();
+
   return (
-    <ModulePlaceholder
-      title="Cash Receipts"
-      description="Record and allocate customer payments."
-      moduleCode="AR"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Cash Receipts</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage customer payments and cash receipts.
+        </p>
+      </div>
+      <ReceiptList data={receipts} />
+    </div>
   );
 }

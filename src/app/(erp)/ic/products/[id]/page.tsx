@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
 export default function ProductDetailsPage() {
-  return (
-    <ModulePlaceholder
-      title="Product Details"
-      description="View and edit product information."
-      moduleCode="IC"
-    />
-  );
+  redirect("/ic/products");
 }

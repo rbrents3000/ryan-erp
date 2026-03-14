@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
-export default function CustomerDetailsPage() {
-  return (
-    <ModulePlaceholder
-      title="Customer Details"
-      description="View and edit customer information."
-      moduleCode="AR"
-    />
-  );
+export default function CustomerDetailPage() {
+  redirect("/ar/customers");
 }

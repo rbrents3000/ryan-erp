@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
-export default function APInvoiceDetailsPage() {
-  return (
-    <ModulePlaceholder
-      title="AP Invoice Details"
-      description="View and edit vendor invoice details."
-      moduleCode="AP"
-    />
-  );
+export default function InvoiceDetailPage() {
+  redirect("/ap/invoices");
 }

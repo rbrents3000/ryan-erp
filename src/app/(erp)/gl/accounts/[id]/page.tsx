@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
-export default function AccountDetailsPage() {
-  return (
-    <ModulePlaceholder
-      title="Account Details"
-      description="View and edit general ledger account details."
-      moduleCode="GL"
-    />
-  );
+export default function EditGlAccountPage() {
+  redirect("/gl/accounts");
 }

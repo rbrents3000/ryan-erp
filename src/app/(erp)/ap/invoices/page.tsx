@@ -1,11 +1,18 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { listApInvoices } from "./actions";
+import { InvoiceList } from "./invoice-list";
 
-export default function APInvoicesPage() {
+export default async function APInvoicesPage() {
+  const invoices = await listApInvoices();
+
   return (
-    <ModulePlaceholder
-      title="AP Invoices"
-      description="Enter and manage vendor invoices and credit notes."
-      moduleCode="AP"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">AP Invoices</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage accounts payable invoices.
+        </p>
+      </div>
+      <InvoiceList data={invoices} />
+    </div>
   );
 }

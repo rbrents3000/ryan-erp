@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
-export default function NewARInvoicePage() {
-  return (
-    <ModulePlaceholder
-      title="New AR Invoice"
-      description="Create a new customer invoice."
-      moduleCode="AR"
-    />
-  );
+export default function NewInvoicePage() {
+  redirect("/ar/invoices");
 }

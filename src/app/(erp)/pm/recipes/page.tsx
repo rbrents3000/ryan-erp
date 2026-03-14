@@ -1,11 +1,18 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { listRecipes } from "./actions";
+import { RecipeList } from "./recipe-list";
 
-export default function RecipesBOMsPage() {
+export default async function RecipesPage() {
+  const recipes = await listRecipes();
+
   return (
-    <ModulePlaceholder
-      title="Recipes & BOMs"
-      description="Manage bills of materials and manufacturing recipes."
-      moduleCode="PM"
-    />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Recipes / BOM</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage bills of material and production recipes.
+        </p>
+      </div>
+      <RecipeList data={recipes} />
+    </div>
   );
 }

@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
-export default function RecipeDetailsPage() {
-  return (
-    <ModulePlaceholder
-      title="Recipe Details"
-      description="View and edit recipe/BOM details."
-      moduleCode="PM"
-    />
-  );
+export default function RecipeDetailPage() {
+  redirect("/pm/recipes");
 }

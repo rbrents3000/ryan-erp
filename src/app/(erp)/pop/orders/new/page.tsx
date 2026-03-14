@@ -1,11 +1,5 @@
-import { ModulePlaceholder } from "@/components/erp/module-placeholder";
+import { redirect } from "next/navigation";
 
 export default function NewPurchaseOrderPage() {
-  return (
-    <ModulePlaceholder
-      title="New Purchase Order"
-      description="Create a new purchase order."
-      moduleCode="POP"
-    />
-  );
+  redirect("/pop/orders");
 }
