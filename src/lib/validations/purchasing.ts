@@ -25,7 +25,7 @@ export type VendorFormData = z.infer<typeof vendorSchema>;
 
 export const apInvoiceSchema = z.object({
   vendorId: z.string().uuid("Vendor is required"),
-  invoiceNumber: z.string().min(1, "Invoice number is required"),
+  invoiceNumber: z.string().optional(),
   invoiceDate: z.string().min(1, "Invoice date is required"),
   dueDate: z.string().min(1, "Due date is required"),
   termsCode: z.string().optional(),
@@ -50,7 +50,7 @@ export const paymentSchema = z.object({
 export type PaymentFormData = z.infer<typeof paymentSchema>;
 
 export const poHeaderSchema = z.object({
-  poNumber: z.string().min(1, "PO number is required"),
+  poNumber: z.string().optional(),
   vendorId: z.string().uuid("Vendor is required"),
   orderDate: z.string().min(1, "Order date is required"),
   expectedDate: z.string().optional(),

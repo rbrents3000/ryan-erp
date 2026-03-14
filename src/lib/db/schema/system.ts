@@ -171,6 +171,25 @@ export const parameters = systemSchema.table(
   (t) => [unique().on(t.tenantId, t.companyCode, t.key)]
 );
 
+// Number Sequences
+export const numberSequences = systemSchema.table(
+  "number_sequences",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    tenantId: uuid("tenant_id").notNull().references(() => tenants.id, { onDelete: "cascade" }),
+    companyCode: text("company_code").notNull(),
+    documentType: text("document_type").notNull(),
+    prefix: text("prefix").notNull().default(""),
+    nextNumber: integer("next_number").notNull().default(1),
+    padLength: integer("pad_length").notNull().default(6),
+    resetYearly: text("reset_yearly").notNull().default("false"),
+    currentYear: integer("current_year"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [unique().on(t.tenantId, t.companyCode, t.documentType)]
+);
+
 // Type exports
 export type Tenant = typeof tenants.$inferSelect;
 export type NewTenant = typeof tenants.$inferInsert;
@@ -182,3 +201,4 @@ export type UnitOfMeasure = typeof unitsOfMeasure.$inferSelect;
 export type Term = typeof terms.$inferSelect;
 export type TaxCode = typeof taxCodes.$inferSelect;
 export type Period = typeof periods.$inferSelect;
+export type NumberSequence = typeof numberSequences.$inferSelect;

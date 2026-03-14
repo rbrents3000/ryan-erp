@@ -8,6 +8,7 @@ import { arInvoiceSchema } from "@/lib/validations/sales";
 import type { ActionResult } from "@/lib/types/action-result";
 import type { ArInvoice } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
+import { getNextNumber } from "@/lib/db/get-next-number";
 
 export async function listArInvoices(): Promise<ArInvoice[]> {
   const ctx = await getTenantContext();
@@ -32,12 +33,17 @@ export async function createArInvoice(
   }
 
   try {
+    const invoiceNumber =
+      parsed.data.invoiceNumber ||
+      (await getNextNumber(ctx.tenantId, ctx.defaultCompanyCode, "ar_invoice"));
+
     const [row] = await db
       .insert(arInvoices)
       .values({
         tenantId: ctx.tenantId,
         companyCode: ctx.defaultCompanyCode,
         ...parsed.data,
+        invoiceNumber,
         glAccountId: parsed.data.glAccountId || null,
       })
       .returning();

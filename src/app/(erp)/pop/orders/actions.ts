@@ -8,6 +8,7 @@ import { poHeaderSchema } from "@/lib/validations/purchasing";
 import type { ActionResult } from "@/lib/types/action-result";
 import type { PoHeader } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
+import { getNextNumber } from "@/lib/db/get-next-number";
 
 export async function listPoOrders(): Promise<PoHeader[]> {
   const ctx = await getTenantContext();
@@ -32,12 +33,17 @@ export async function createPoOrder(
   }
 
   try {
+    const poNumber =
+      parsed.data.poNumber ||
+      (await getNextNumber(ctx.tenantId, ctx.defaultCompanyCode, "purchase_order"));
+
     const [row] = await db
       .insert(poHeaders)
       .values({
         tenantId: ctx.tenantId,
         companyCode: ctx.defaultCompanyCode,
         ...parsed.data,
+        poNumber,
         expectedDate: parsed.data.expectedDate || null,
         notes: parsed.data.notes || null,
       })

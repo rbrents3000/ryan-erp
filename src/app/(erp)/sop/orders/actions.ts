@@ -8,6 +8,7 @@ import { orderSchema } from "@/lib/validations/sales";
 import type { ActionResult } from "@/lib/types/action-result";
 import type { Order } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
+import { getNextNumber } from "@/lib/db/get-next-number";
 
 export async function listOrders(): Promise<Order[]> {
   const ctx = await getTenantContext();
@@ -32,12 +33,17 @@ export async function createOrder(
   }
 
   try {
+    const orderNumber =
+      parsed.data.orderNumber ||
+      (await getNextNumber(ctx.tenantId, ctx.defaultCompanyCode, "sales_order"));
+
     const [row] = await db
       .insert(orders)
       .values({
         tenantId: ctx.tenantId,
         companyCode: ctx.defaultCompanyCode,
         ...parsed.data,
+        orderNumber,
         requiredDate: parsed.data.requiredDate || null,
         shipToName: parsed.data.shipToName || null,
         shipToAddress: parsed.data.shipToAddress || null,

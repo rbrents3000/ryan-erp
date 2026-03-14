@@ -26,7 +26,7 @@ export type CustomerFormData = z.infer<typeof customerSchema>;
 
 export const arInvoiceSchema = z.object({
   customerId: z.string().uuid("Customer is required"),
-  invoiceNumber: z.string().min(1, "Invoice number is required"),
+  invoiceNumber: z.string().optional(),
   invoiceDate: z.string().min(1, "Invoice date is required"),
   dueDate: z.string().min(1, "Due date is required"),
   termsCode: z.string().optional(),
@@ -51,7 +51,7 @@ export type CashReceiptFormData = z.infer<typeof cashReceiptSchema>;
 
 export const orderSchema = z.object({
   customerId: z.string().uuid("Customer is required"),
-  orderNumber: z.string().min(1, "Order number is required"),
+  orderNumber: z.string().optional(),
   orderDate: z.string().min(1, "Order date is required"),
   requiredDate: z.string().optional(),
   shipToName: z.string().optional(),

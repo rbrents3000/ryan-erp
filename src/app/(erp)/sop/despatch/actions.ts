@@ -7,11 +7,12 @@ import { getTenantContext } from "@/lib/auth/tenant";
 import type { ActionResult } from "@/lib/types/action-result";
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
+import { getNextNumber } from "@/lib/db/get-next-number";
 
 type DespatchNote = typeof despatchNotes.$inferSelect;
 
 const despatchSchema = z.object({
-  despatchNumber: z.string().min(1, "Despatch number is required"),
+  despatchNumber: z.string().optional(),
   orderId: z.string().uuid("Valid Order ID is required"),
   customerId: z.string().uuid("Valid Customer ID is required"),
   despatchDate: z.string().min(1, "Despatch date is required"),
@@ -44,12 +45,16 @@ export async function createDespatchNote(
   }
 
   try {
+    const despatchNumber =
+      parsed.data.despatchNumber ||
+      (await getNextNumber(ctx.tenantId, ctx.defaultCompanyCode, "despatch_note"));
+
     const [row] = await db
       .insert(despatchNotes)
       .values({
         tenantId: ctx.tenantId,
         companyCode: ctx.defaultCompanyCode,
-        despatchNumber: parsed.data.despatchNumber,
+        despatchNumber,
         orderId: parsed.data.orderId,
         customerId: parsed.data.customerId,
         despatchDate: parsed.data.despatchDate,

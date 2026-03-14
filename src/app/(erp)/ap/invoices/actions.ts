@@ -8,6 +8,7 @@ import { apInvoiceSchema } from "@/lib/validations/purchasing";
 import type { ActionResult } from "@/lib/types/action-result";
 import type { ApInvoice } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
+import { getNextNumber } from "@/lib/db/get-next-number";
 
 export async function listApInvoices(): Promise<ApInvoice[]> {
   const ctx = await getTenantContext();
@@ -32,12 +33,17 @@ export async function createApInvoice(
   }
 
   try {
+    const invoiceNumber =
+      parsed.data.invoiceNumber ||
+      (await getNextNumber(ctx.tenantId, ctx.defaultCompanyCode, "ap_invoice"));
+
     const [row] = await db
       .insert(apInvoices)
       .values({
         tenantId: ctx.tenantId,
         companyCode: ctx.defaultCompanyCode,
         ...parsed.data,
+        invoiceNumber,
         glAccountId: parsed.data.glAccountId || null,
       })
       .returning();

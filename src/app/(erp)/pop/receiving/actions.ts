@@ -7,11 +7,12 @@ import { getTenantContext } from "@/lib/auth/tenant";
 import type { ActionResult } from "@/lib/types/action-result";
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
+import { getNextNumber } from "@/lib/db/get-next-number";
 
 type GoodsReceivedNote = typeof goodsReceived.$inferSelect;
 
 const goodsReceivedSchema = z.object({
-  grnNumber: z.string().min(1, "GRN number is required"),
+  grnNumber: z.string().optional(),
   poHeaderId: z.string().uuid("Valid PO ID is required"),
   vendorId: z.string().uuid("Valid Vendor ID is required"),
   receivedDate: z.string().min(1, "Received date is required"),
@@ -42,12 +43,17 @@ export async function createGoodsReceived(
   }
 
   try {
+    const grnNumber =
+      parsed.data.grnNumber ||
+      (await getNextNumber(ctx.tenantId, ctx.defaultCompanyCode, "grn"));
+
     const [row] = await db
       .insert(goodsReceived)
       .values({
         tenantId: ctx.tenantId,
         companyCode: ctx.defaultCompanyCode,
         ...parsed.data,
+        grnNumber,
         notes: parsed.data.notes || null,
         createdBy: ctx.userId,
       })
